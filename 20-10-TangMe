@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Gửi Mẹ Yêu 20/10 ❤</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Georgia', serif;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        #bgCanvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ===== MÀN HÌNH MỞ ĐẦU ===== */
+        #introScreen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #4a0e2a 0%, #1a0010 70%, #000 100%);
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.5s ease-out;
+            padding: 20px;
+        }
+        #introScreen h1 {
+            font-size: 2rem;
+            color: #ffd700;
+            letter-spacing: 6px;
+            text-shadow: 0 0 20px #ffd700, 0 0 40px #ff69b4, 0 0 60px #ff1493;
+            margin-bottom: 20px;
+            text-align: center;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        #introScreen p {
+            color: #ffb3c6;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            text-align: center;
+            line-height: 1.8;
+        }
+        #openBtn {
+            padding: 18px 60px;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, #ff1493, #ff69b4, #ffd700);
+            background-size: 200% auto;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            letter-spacing: 4px;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.9), 0 0 60px rgba(255, 105, 180, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.3);
+            animation: btnPulse 2s infinite ease-in-out;
+            transition: all 0.3s;
+        }
+        #openBtn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 50px rgba(255, 20, 147, 1), 0 0 100px rgba(255, 105, 180, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+        @keyframes btnPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 20, 147, 0.9), 0 0 60px rgba(255, 105, 180, 0.5); }
+            50% { box-shadow: 0 0 50px rgba(255, 20, 147, 1), 0 0 100px rgba(255, 105, 180, 0.8); }
+        }
+        .decoFlower {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.6;
+            animation: rotateSlow 10s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes rotateSlow { to { transform: rotate(360deg); } }
+
+        /* ===== MÀN HÌNH CHÍNH ===== */
+        #mainScreen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 10;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 4vh;
+            overflow-y: auto;
+            padding-bottom: 100px;
+        }
+        #mainTitle {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #ffd700, #ff69b4, #ff1493, #ffd700);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            letter-spacing: 5px;
+            filter: drop-shadow(0 0 25px rgba(255, 105, 180, 1));
+            animation: shimmerText 3s linear infinite;
+            text-align: center;
+            padding: 0 20px;
+            z-index: 20;
+            line-height: 1.4;
+        }
+        @keyframes shimmerText { to { background-position: 300% center; } }
+        #subTitle {
+            color: #ffb3c6;
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            margin-top: 15px;
+            text-shadow: 0 0 15px rgba(255, 105, 180, 1), 0 0 30px rgba(255, 20, 147, 0.8);
+            z-index: 20;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* ===== LÁ THƯ ===== */
+        #letter {
+            position: relative;
+            z-index: 20;
+            max-width: 90%;
+            width: 600px;
+            margin-top: 40px;
+            padding: 35px 40px;
+            background: rgba(30, 5, 20, 0.96);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255, 105, 180, 0.6), inset 0 0 30px rgba(255, 105, 180, 0.1);
+            color: #fff;
+            font-size: 1.1rem;
+            line-height: 1.9;
+            text-align: left;
+            letter-spacing: normal;
+            word-spacing: normal;
+            text-rendering: optimizeLegibility;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: letterAppear 2s ease-out 1s forwards;
+        }
+        @keyframes letterAppear { to { opacity: 1; transform: translateY(0); } }
+        #letter::before {
+            content: '❝';
+            position: absolute;
+            top: -30px;
+            left: 20px;
+            font-size: 5rem;
+            color: #ffd700;
+            opacity: 0.6;
+            text-shadow: 0 0 20px #ffd700;
+            line-height: 1;
+        }
+        #letter p { margin-bottom: 16px; text-align: left; }
+        #signature {
+            text-align: right;
+            margin-top: 25px;
+            color: #ffd700;
+            font-style: italic;
+            font-size: 1.1rem;
+            text-shadow: 0 0 15px #ffd700;
+        }
+
+        /* ===== NÚT NHẠC ===== */
+        #musicToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(255, 105, 180, 0.3);
+            border: 2px solid #ffd700;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.8), 0 0 40px rgba(255, 20, 147, 0.4);
+            transition: all 0.3s;
+        }
+        #musicToggle:hover { background: rgba(255, 105, 180, 0.7); transform: scale(1.1); }
+
+        /* ===== HOA RƠI ===== */
+        .fallingFlower {
+            position: fixed;
+            top: -80px;
+            font-size: 30px;
+            pointer-events: none;
+            z-index: 5;
+            animation: flowerFall linear forwards;
+            filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.7));
+        }
+        @keyframes flowerFall {
+            0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg) scale(1.2); opacity: 0; }
+        }
+
+        /* ===== TIM BAY ===== */
+        .floatHeart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 5;
+            font-size: 25px;
+            animation: heartRise linear forwards;
+            filter: drop-shadow(0 0 12px #ff69b4);
+        }
+        @keyframes heartRise {
+            0% { transform: translateY(0) scale(0.3) rotate(0deg); opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { transform: translateY(-110vh) scale(1.3) rotate(360deg); opacity: 0; }
+        }
+
+        /* ===== PHÁO HOA ===== */
+        .firework {
+            position: fixed;
+            pointer-events: none;
+            z-index: 25;
+            font-size: 22px;
+            animation: explode 1.5s ease-out forwards;
+            filter: drop-shadow(0 0 10px #ffd700);
+        }
+        @keyframes explode {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+        }
+
+        /* ===== ẢNH KỶ NIỆM BÊN TRÁI / BÊN PHẢI ===== */
+        .photoFrame {
+            position: fixed;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 6px solid #ffd700;
+            box-shadow:
+                0 0 30px #ff69b4,
+                0 0 60px #ff1493,
+                0 0 90px rgba(255, 105, 180, 0.6),
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
+            /* Đặt z-index thấp hơn lá thư (20) để không che chữ */
+            z-index: 15;
+            pointer-events: none;
+            background: #fff;
+            opacity: 0;
+            top: 50%;
+            filter: blur(4px) brightness(0.8);
+            transition:
+                transform 8s cubic-bezier(0.2, 0.8, 0.3, 1),
+                filter 8s ease-out,
+                opacity 1.5s ease-out;
+        }
+        .photoFrame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* Vị trí bên trái */
+        .photoFrame.sideLeft {
+            left: 0;
+            transform: translate(-40%, -50%) scale(0.4);
+        }
+        .photoFrame.sideLeft.show {
+            transform: translate(-15%, -50%) scale(1);
+        }
+        /* Vị trí bên phải */
+        .photoFrame.sideRight {
+            right: 0;
+            transform: translate(40%, -50%) scale(0.4);
+        }
+        .photoFrame.sideRight.show {
+            transform: translate(15%, -50%) scale(1);
+        }
+        .photoFrame.show {
+            opacity: 1;
+            filter: blur(0px) brightness(1);
+        }
+        .photoFrame.fadeOut {
+            opacity: 0;
+            filter: blur(6px) brightness(1.2);
+            transition:
+                opacity 2s ease-in,
+                transform 2s ease-in,
+                filter 2s ease-in;
+        }
+        .photoFrame.fadeOut.sideLeft {
+            transform: translate(-40%, -50%) scale(0.9);
+        }
+        .photoFrame.fadeOut.sideRight {
+            transform: translate(40%, -50%) scale(0.9);
+        }
+        .photoFrame::before {
+            content: '';
+            position: absolute;
+            top: -15px; left: -15px; right: -15px; bottom: -15px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #ffd700, #ff69b4, #ff1493, #ffb3c6, #ffd700);
+            z-index: -1;
+            animation: rotateGlow 4s linear infinite;
+            opacity: 0.9;
+        }
+        @keyframes rotateGlow { to { transform: rotate(360deg); } }
+
+        .miniHeart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 16;
+            font-size: 22px;
+            text-shadow: 0 0 12px #ff69b4;
+            animation: miniHeartFloat 3s ease-out forwards;
+        }
+        @keyframes miniHeartFloat {
+            0% { transform: translateY(0) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-120px) scale(1.3); opacity: 0; }
+        }
+
+        /* ===== NÚT HÀNH ĐỘNG ===== */
+        #actionBar {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 30;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 0 10px;
+        }
+        .actionBtn {
+            padding: 12px 25px;
+            background: rgba(30, 5, 20, 0.85);
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            border-radius: 30px;
+            font-family: 'Georgia', serif;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), inset 0 0 15px rgba(255, 215, 0, 0.1);
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .actionBtn:hover {
+            background: #ffd700;
+            color: #4a0e2a;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.9);
+            transform: translateY(-3px);
+        }
+
+        /* ===== MOBILE - ẢNH NHỎ HƠN ĐỂ KHÔNG CHE CHỮ ===== */
+        @media (max-width: 768px) {
+            #introScreen h1 { font-size: 1.4rem; letter-spacing: 3px; }
+            #introScreen p { font-size: 0.85rem; }
+            #openBtn { padding: 15px 40px; font-size: 1rem; letter-spacing: 2px; }
+            #mainTitle { font-size: 1.4rem; letter-spacing: 2px; }
+            #subTitle { font-size: 0.95rem; letter-spacing: 4px; }
+            #letter {
+                font-size: 0.95rem;
+                padding: 25px 22px;
+                margin-top: 20px;
+                line-height: 1.8;
+                width: 92%;
+            }
+            #letter::before { font-size: 3.5rem; top: -20px; }
+            .actionBtn { padding: 10px 18px; font-size: 0.8rem; }
+            /* Ảnh trên mobile nhỏ hơn và nép sát mép */
+            .photoFrame.sideLeft.show {
+                transform: translate(-35%, -50%) scale(1);
+            }
+            .photoFrame.sideRight.show {
+                transform: translate(35%, -50%) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bgCanvas"></canvas>
+    <audio id="bgMusic" src="NoiAyConTimVe.mp3" loop preload="auto"></audio>
+
+    <!-- MÀN HÌNH MỞ ĐẦU -->
+    <div id="introScreen">
+        <div class="decoFlower" style="top: 10%; left: 10%;">🌹</div>
+        <div class="decoFlower" style="top: 20%; right: 12%; animation-duration: 12s;">🌸</div>
+        <div class="decoFlower" style="bottom: 15%; left: 8%; animation-duration: 14s;">💐</div>
+        <div class="decoFlower" style="bottom: 12%; right: 10%; animation-duration: 9s;">🌷</div>
+        <h1>NGÀY PHỤ NỮ VIỆT NAM<br>20 / 10</h1>
+        <p>Món quà nhỏ gửi đến người phụ nữ<br>tuyệt vời nhất cuộc đời con</p>
+        <button id="openBtn">❤ MỞ THIỆP ❤</button>
+    </div>
+
+    <!-- MÀN HÌNH CHÍNH -->
+    <div id="mainScreen">
+        <h1 id="mainTitle">Chúc Mừng 20/10 Mẹ Yêu</h1>
+        <div id="subTitle">❤ Con yêu mẹ nhiều lắm ❤</div>
+
+        <div id="letter">
+            <p>Mẹ yêu dấu,</p>
+            <p>Hôm nay ngày 20/10, con muốn dành những lời chân thành nhất để gửi đến mẹ, người phụ nữ tuyệt vời nhất trong cuộc đời con.</p>
+            <p>Cảm ơn mẹ đã sinh ra con, đã nuôi dạy con bằng tất cả tình yêu thương và sự hy sinh thầm lặng. Những bữa cơm mẹ nấu, những lời mẹ dạy, những cái ôm mẹ trao, tất cả đều là kho báu quý giá nhất mà con may mắn được nhận.</p>
+            <p>Chúc mẹ ngày 20/10 thật nhiều niềm vui, luôn xinh đẹp rạng ngời, mạnh khỏe và hạnh phúc. Con mong mẹ mãi mãi là người phụ nữ mạnh mẽ, dịu dàng mà con luôn tự hào.</p>
+            <p>Con yêu mẹ nhiều hơn tất cả những gì con có thể nói ra.</p>
+            <div id="signature">— Con yêu của mẹ ❤</div>
+        </div>
+    </div>
+
+    <button id="musicToggle">🔊</button>
+
+    <div id="actionBar" style="display: none;">
+        <button class="actionBtn" id="fireworksBtn">🎆 Bắn pháo hoa</button>
+        <button class="actionBtn" id="heartsBtn">❤️ Thả tim</button>
+        <button class="actionBtn" id="photosBtn">📸 Ảnh kỷ niệm</button>
+    </div>
+
+    <script>
+    // ============================================================
+    // THIỆP 20/10 GỬI MẸ - NSMOD (FINAL)
+    // Ảnh bên trái / phải luân phiên, không che chữ
+    // ============================================================
+
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+    let started = false;
+
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    let isMusicPlaying = false;
+
+    const particles = [];
+
+    function resizeCanvas() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Hạt nền
+    for (let i = 0; i < 150; i++) {
+        particles.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.4,
+            size: Math.random() * 2 + 0.5,
+            alpha: Math.random() * 0.7 + 0.3,
+            hue: Math.random() < 0.5 ? 330 + Math.random() * 30 : 50 + Math.random() * 15
+        });
+    }
+
+    function drawBackground() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+        ctx.fillRect(0, 0, W, H);
+
+        for (const p of particles) {
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0 || p.x > W) p.vx *= -1;
+            if (p.y < 0 || p.y > H) p.vy *= -1;
+
+            ctx.beginPath();
+            ctx.fillStyle = `hsla(${p.hue}, 100%, 70%, ${p.alpha})`;
+            ctx.shadowColor = `hsla(${p.hue}, 100%, 60%, 1)`;
+            ctx.shadowBlur = 15;
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.shadowBlur = 0;
+        requestAnimationFrame(drawBackground);
+    }
+    drawBackground();
+
+    // ============================================================
+    // PHÁT NHẠC
+    // ============================================================
+    function playMusic() {
+        bgMusic.volume = 0.7;
+        const playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                isMusicPlaying = true;
+                musicToggle.textContent = '🔊';
+                musicToggle.style.display = 'flex';
+            }).catch(error => {
+                console.log('Trình duyệt chặn:', error);
+                musicToggle.textContent = '🔇';
+                musicToggle.style.display = 'flex';
+            });
+        }
+    }
+
+    musicToggle.addEventListener('click', () => {
+        if (isMusicPlaying) {
+            bgMusic.pause();
+            musicToggle.textContent = '🔇';
+            isMusicPlaying = false;
+        } else {
+            bgMusic.play();
+            musicToggle.textContent = '🔊';
+            isMusicPlaying = true;
+        }
+    });
+
+    // ============================================================
+    // HOA RƠI
+    // ============================================================
+    const flowers = ['🌹', '🌸', '💐', '🌷', '🌺', '🌻', '💮', '🏵️'];
+
+    function spawnFallingFlower() {
+        const f = document.createElement('div');
+        f.className = 'fallingFlower';
+        f.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+        f.style.left = Math.random() * 100 + 'vw';
+        f.style.fontSize = (20 + Math.random() * 25) + 'px';
+        f.style.animationDuration = (6 + Math.random() * 5) + 's';
+        f.style.animationDelay = (Math.random() * 2) + 's';
+        document.body.appendChild(f);
+        setTimeout(() => f.remove(), 13000);
+    }
+
+    // ============================================================
+    // TIM BAY
+    // ============================================================
+    const heartEmojis = ['❤️', '💖', '💕', '💗', '💝', '💓', '💞', '💘', '❣️', '💟'];
+
+    function spawnFloatingHeart() {
+        const h = document.createElement('div');
+        h.className = 'floatHeart';
+        h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+        h.style.left = Math.random() * 100 + 'vw';
+        h.style.bottom = '-50px';
+        h.style.fontSize = (20 + Math.random() * 25) + 'px';
+        h.style.animationDuration = (5 + Math.random() * 4) + 's';
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 10000);
+    }
+
+    // ============================================================
+    // PHÁO HOA
+    // ============================================================
+    function spawnFirework(x, y) {
+        const emojis = ['✨', '💥', '🌟', '💫', '⭐', '🎉', '🎊', '🌸', '💝'];
+        const colors = ['#ffd700', '#ff69b4', '#ff1493', '#ffb3c6', '#fff'];
+        for (let i = 0; i < 15; i++) {
+            const f = document.createElement('div');
+            f.className = 'firework';
+            f.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            f.style.left = x + 'px';
+            f.style.top = y + 'px';
+            f.style.fontSize = (15 + Math.random() * 20) + 'px';
+            f.style.animationDuration = (1 + Math.random() * 0.8) + 's';
+            f.style.animationDelay = (Math.random() * 0.4) + 's';
+            f.style.color = colors[Math.floor(Math.random() * colors.length)];
+            document.body.appendChild(f);
+            setTimeout(() => f.remove(), 2500);
+        }
+    }
+
+    function burstFireworks() {
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                spawnFirework(Math.random() * W, Math.random() * H * 0.7);
+            }, i * 200);
+        }
+    }
+
+    // ============================================================
+    // ẢNH KỶ NIỆM - LUÂN PHIÊN TRÁI / PHẢI
+    // ============================================================
+    const photos = [
+        'photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg',
+        'photo5.jpg', 'photo6.jpg', 'photo7.jpg', 'photo8.jpg',
+        'photo9.jpg', 'photo10.jpg', 'photo11.jpg', 'photo12.jpg',
+        'photo13.jpg', 'photo14.jpg', 'photo15.jpg', 'photo16.jpg',
+        'photo17.jpg', 'photo18.jpg'
+    ];
+
+    let photoIndex = 0;
+    let sideFlip = 0; // 0 = trái, 1 = phải
+
+    // Tính kích thước ảnh dựa trên khoảng trống hai bên lá thư
+    function getPhotoSize() {
+        const letterWidth = Math.min(W * 0.9, 600);
+        // Khoảng trống mỗi bên = (W - letterWidth) / 2
+        const sideSpace = (W - letterWidth) / 2;
+        // Ảnh chiếm khoảng 90% khoảng trống, tối đa 380px, tối thiểu 140px
+        let size = sideSpace * 1.7;
+        size = Math.max(140, Math.min(380, size));
+        return size;
+    }
+
+    function spawnSlidingPhoto() {
+        if (!started) return;
+
+        const src = photos[photoIndex % photos.length];
+        photoIndex++;
+
+        const size = getPhotoSize();
+
+        // Luân phiên trái / phải
+        const side = sideFlip === 0 ? 'sideLeft' : 'sideRight';
+        sideFlip = 1 - sideFlip;
+
+        const frame = document.createElement('div');
+        frame.className = 'photoFrame ' + side;
+        frame.style.width = size + 'px';
+        frame.style.height = size + 'px';
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = 'Kỷ niệm';
+        img.onerror = () => {
+            frame.innerHTML = '';
+            frame.style.background = 'linear-gradient(135deg, #ff69b4, #ff1493)';
+            frame.textContent = '❤';
+            frame.style.fontSize = size * 0.5 + 'px';
+            frame.style.display = 'flex';
+            frame.style.alignItems = 'center';
+            frame.style.justifyContent = 'center';
+            frame.style.color = '#fff';
+            frame.style.textShadow = '0 0 30px #fff';
+        };
+        frame.appendChild(img);
+        document.body.appendChild(frame);
+
+        // Kích hoạt hiệu ứng phóng to dần
+        setTimeout(() => {
+            frame.classList.add('show');
+        }, 50);
+
+        // Tim nhỏ bay quanh ảnh
+        const heartInterval = setInterval(() => {
+            if (!document.body.contains(frame)) {
+                clearInterval(heartInterval);
+                return;
+            }
+            const rect = frame.getBoundingClientRect();
+            if (rect.width > 0) {
+                const mini = document.createElement('div');
+                mini.className = 'miniHeart';
+                mini.textContent = '❤';
+                mini.style.left = (rect.left + Math.random() * rect.width) + 'px';
+                mini.style.top = (rect.top + rect.height * 0.5) + 'px';
+                document.body.appendChild(mini);
+                setTimeout(() => mini.remove(), 3000);
+            }
+        }, 500);
+
+        // Giây 10: bắt đầu mờ dần
+        setTimeout(() => {
+            frame.classList.add('fadeOut');
+        }, 10000);
+
+        // Giây 12: xóa ảnh, tạo ảnh mới sau 0.5s
+        setTimeout(() => {
+            clearInterval(heartInterval);
+            frame.remove();
+            if (started) {
+                setTimeout(spawnSlidingPhoto, 500);
+            }
+        }, 12000);
+    }
+
+    // ============================================================
+    // MỞ THIỆP
+    // ============================================================
+    const introScreen = document.getElementById('introScreen');
+    const mainScreen = document.getElementById('mainScreen');
+    const openBtn = document.getElementById('openBtn');
+    const actionBar = document.getElementById('actionBar');
+
+    function openCard() {
+        if (started) return;
+        started = true;
+
+        const rect = openBtn.getBoundingClientRect();
+        spawnFirework(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+        playMusic();
+
+        introScreen.style.opacity = '0';
+        setTimeout(() => {
+            introScreen.style.display = 'none';
+            mainScreen.style.display = 'flex';
+            actionBar.style.display = 'flex';
+
+            setInterval(spawnFallingFlower, 400);
+            setInterval(spawnFloatingHeart, 350);
+            setInterval(() => {
+                spawnFirework(Math.random() * W, Math.random() * H * 0.6);
+            }, 2000);
+
+            // Bắt đầu chuỗi ảnh
+            setTimeout(spawnSlidingPhoto, 1000);
+        }, 1500);
+    }
+
+    openBtn.addEventListener('click', openCard);
+    openBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        openCard();
+    }, { passive: false });
+
+    // Hoa rơi nhẹ ở màn hình chờ
+    setInterval(() => {
+        if (!started) spawnFallingFlower();
+    }, 800);
+
+    // ============================================================
+    // NÚT HÀNH ĐỘNG
+    // ============================================================
+    document.getElementById('fireworksBtn').addEventListener('click', () => {
+        burstFireworks();
+    });
+    document.getElementById('heartsBtn').addEventListener('click', () => {
+        for (let i = 0; i < 20; i++) {
+            setTimeout(spawnFloatingHeart, i * 80);
+        }
+    });
+    document.getElementById('photosBtn').addEventListener('click', () => {
+        spawnSlidingPhoto();
+    });
+    </script>
+</body>
+</html>
