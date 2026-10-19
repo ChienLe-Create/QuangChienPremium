@@ -1,747 +1,948 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Gửi Mẹ Yêu 20/10 ❤</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body {
-            width: 100%; height: 100%;
-            overflow: hidden;
-            background: #000;
-            font-family: 'Georgia', serif;
-            touch-action: none;
-            user-select: none;
-            -webkit-user-select: none;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gửi Mẹ Yêu - 20/10</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,500;1,600&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #f3d1e0 100%);
+    font-family: 'Quicksand', sans-serif;
+    overflow: hidden;
+  }
 
-        #bgCanvas {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
+  /* ===== HIỆU ỨNG NỀN ===== */
+  .aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .aurora::before, .aurora::after {
+    content: ''; position: absolute; width: 150vw; height: 150vh;
+    background: radial-gradient(circle, rgba(255,213,79,0.15) 0%, rgba(236,64,122,0.15) 40%, transparent 70%);
+    border-radius: 40%; animation: auroraSpin 20s linear infinite; transform-origin: center;
+  }
+  .aurora::after {
+    background: radial-gradient(circle, rgba(186,104,200,0.15) 0%, rgba(244,143,177,0.15) 40%, transparent 70%);
+    animation: auroraSpin 25s linear infinite reverse;
+  }
+  @keyframes auroraSpin { from { transform: rotate(0deg) scale(1); } to { transform: rotate(360deg) scale(1.1); } }
 
-        /* ===== MÀN HÌNH MỞ ĐẦU ===== */
-        #introScreen {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #4a0e2a 0%, #1a0010 70%, #000 100%);
-            z-index: 500;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 1.5s ease-out;
-            padding: 20px;
-        }
-        #introScreen h1 {
-            font-size: 2rem;
-            color: #ffd700;
-            letter-spacing: 6px;
-            text-shadow: 0 0 20px #ffd700, 0 0 40px #ff69b4, 0 0 60px #ff1493;
-            margin-bottom: 20px;
-            text-align: center;
-            font-style: italic;
-            line-height: 1.5;
-        }
-        #introScreen p {
-            color: #ffb3c6;
-            font-size: 1rem;
-            letter-spacing: 3px;
-            margin-bottom: 40px;
-            text-align: center;
-            line-height: 1.8;
-        }
-        #openBtn {
-            padding: 18px 60px;
-            font-size: 1.3rem;
-            background: linear-gradient(135deg, #ff1493, #ff69b4, #ffd700);
-            background-size: 200% auto;
-            color: #fff;
-            border: 2px solid #fff;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Georgia', serif;
-            font-weight: bold;
-            letter-spacing: 4px;
-            box-shadow: 0 0 30px rgba(255, 20, 147, 0.9), 0 0 60px rgba(255, 105, 180, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.3);
-            animation: btnPulse 2s infinite ease-in-out;
-            transition: all 0.3s;
-        }
-        #openBtn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 50px rgba(255, 20, 147, 1), 0 0 100px rgba(255, 105, 180, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.5);
-        }
-        @keyframes btnPulse {
-            0%, 100% { box-shadow: 0 0 30px rgba(255, 20, 147, 0.9), 0 0 60px rgba(255, 105, 180, 0.5); }
-            50% { box-shadow: 0 0 50px rgba(255, 20, 147, 1), 0 0 100px rgba(255, 105, 180, 0.8); }
-        }
-        .decoFlower {
-            position: absolute;
-            font-size: 3rem;
-            opacity: 0.6;
-            animation: rotateSlow 10s linear infinite;
-            pointer-events: none;
-        }
-        @keyframes rotateSlow { to { transform: rotate(360deg); } }
+  .petal, .heart { position: fixed; z-index: 1; pointer-events: none; opacity: 0.85; }
+  .petal { top: -60px; animation: fall linear infinite; }
+  .heart { bottom: -40px; animation: floatUp linear infinite; opacity: 0.7; }
+  @keyframes fall { 0% { transform: translateY(-60px) rotate(0deg); opacity: 0.9; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0.3; } }
+  @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 0.8; } 100% { transform: translateY(-110vh) scale(1.4); opacity: 0; } }
 
-        /* ===== MÀN HÌNH CHÍNH ===== */
-        #mainScreen {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 10;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 4vh;
-            overflow-y: auto;
-            padding-bottom: 100px;
-        }
-        #mainTitle {
-            font-size: 2.2rem;
-            background: linear-gradient(90deg, #ffd700, #ff69b4, #ff1493, #ffd700);
-            background-size: 300% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: bold;
-            letter-spacing: 5px;
-            filter: drop-shadow(0 0 25px rgba(255, 105, 180, 1));
-            animation: shimmerText 3s linear infinite;
-            text-align: center;
-            padding: 0 20px;
-            z-index: 20;
-            line-height: 1.4;
-        }
-        @keyframes shimmerText { to { background-position: 300% center; } }
-        #subTitle {
-            color: #ffb3c6;
-            font-size: 1.2rem;
-            letter-spacing: 8px;
-            margin-top: 15px;
-            text-shadow: 0 0 15px rgba(255, 105, 180, 1), 0 0 30px rgba(255, 20, 147, 0.8);
-            z-index: 20;
-            text-align: center;
-            font-style: italic;
-        }
+  .star {
+    position: fixed; width: 3px; height: 3px; background: #fff; border-radius: 50%;
+    pointer-events: none; z-index: 0; box-shadow: 0 0 8px rgba(255,255,255,1), 0 0 14px rgba(255,213,79,0.6);
+    animation: twinkle ease-in-out infinite;
+  }
+  @keyframes twinkle { 0%, 100% { opacity: 0.15; transform: scale(0.7); } 50% { opacity: 1; transform: scale(1.3); } }
 
-        /* ===== LÁ THƯ ===== */
-        #letter {
-            position: relative;
-            z-index: 20;
-            max-width: 90%;
-            width: 600px;
-            margin-top: 40px;
-            padding: 35px 40px;
-            background: rgba(30, 5, 20, 0.96);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 215, 0, 0.5);
-            border-radius: 20px;
-            box-shadow: 0 0 40px rgba(255, 105, 180, 0.6), inset 0 0 30px rgba(255, 105, 180, 0.1);
-            color: #fff;
-            font-size: 1.1rem;
-            line-height: 1.9;
-            text-align: left;
-            letter-spacing: normal;
-            word-spacing: normal;
-            text-rendering: optimizeLegibility;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: letterAppear 2s ease-out 1s forwards;
-        }
-        @keyframes letterAppear { to { opacity: 1; transform: translateY(0); } }
-        #letter::before {
-            content: '❝';
-            position: absolute;
-            top: -30px;
-            left: 20px;
-            font-size: 5rem;
-            color: #ffd700;
-            opacity: 0.6;
-            text-shadow: 0 0 20px #ffd700;
-            line-height: 1;
-        }
-        #letter p { margin-bottom: 16px; text-align: left; }
-        #signature {
-            text-align: right;
-            margin-top: 25px;
-            color: #ffd700;
-            font-style: italic;
-            font-size: 1.1rem;
-            text-shadow: 0 0 15px #ffd700;
-        }
+  .bubble {
+    position: fixed; bottom: -100px; border-radius: 50%; pointer-events: none; z-index: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(244,143,177,0.3));
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.5), 0 0 15px rgba(236,64,122,0.3);
+    animation: floatBubble linear infinite;
+  }
+  @keyframes floatBubble { 0% { transform: translateY(0) scale(0.8); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-120vh) scale(1.2); opacity: 0; } }
 
-        /* ===== NÚT NHẠC ===== */
-        #musicToggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            background: rgba(255, 105, 180, 0.3);
-            border: 2px solid #ffd700;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 200;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.8), 0 0 40px rgba(255, 20, 147, 0.4);
-            transition: all 0.3s;
-        }
-        #musicToggle:hover { background: rgba(255, 105, 180, 0.7); transform: scale(1.1); }
+  /* ===== NÚT THẢ TIM ===== */
+  .fab-group { position: fixed; bottom: 25px; left: 25px; z-index: 250; display: flex; flex-direction: column; gap: 12px; }
+  .heart-fab {
+    width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #ec407a, #d81b60);
+    color: #fff; font-size: 26px; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(216,27,96,0.5);
+    display: flex; justify-content: center; align-items: center; transition: all 0.3s; animation: heartBeat 1.5s ease-in-out infinite;
+  }
+  .heart-fab:hover { transform: scale(1.15); }
+  @keyframes heartBeat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.15); } 30% { transform: scale(1); } 45% { transform: scale(1.15); } 60% { transform: scale(1); } }
 
-        /* ===== HOA RƠI ===== */
-        .fallingFlower {
-            position: fixed;
-            top: -80px;
-            font-size: 30px;
-            pointer-events: none;
-            z-index: 5;
-            animation: flowerFall linear forwards;
-            filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.7));
-        }
-        @keyframes flowerFall {
-            0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(110vh) rotate(720deg) scale(1.2); opacity: 0; }
-        }
+  .flying-heart { position: fixed; z-index: 9999; pointer-events: none; animation: flyUp 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
+  @keyframes flyUp { 0% { transform: translate(0, 0) scale(1) rotate(0); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0.5) rotate(var(--rot)); opacity: 0; } }
 
-        /* ===== TIM BAY ===== */
-        .floatHeart {
-            position: fixed;
-            pointer-events: none;
-            z-index: 5;
-            font-size: 25px;
-            animation: heartRise linear forwards;
-            filter: drop-shadow(0 0 12px #ff69b4);
-        }
-        @keyframes heartRise {
-            0% { transform: translateY(0) scale(0.3) rotate(0deg); opacity: 0; }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
-            100% { transform: translateY(-110vh) scale(1.3) rotate(360deg); opacity: 0; }
-        }
+  /* ===== MÀN HÌNH ===== */
+  .screen { position: fixed; inset: 0; display: flex; justify-content: center; align-items: center; padding: 15px; z-index: 30; opacity: 0; pointer-events: none; transition: opacity 0.7s ease; overflow-y: auto; }
+  .screen.show { opacity: 1; pointer-events: auto; }
+  .screen.show .box-pop { transform: scale(1) translateY(0); }
+  .box-pop { transform: scale(0.85) translateY(30px); transition: transform 0.7s cubic-bezier(0.34,1.56,0.64,1); }
 
-        /* ===== PHÁO HOA ===== */
-        .firework {
-            position: fixed;
-            pointer-events: none;
-            z-index: 25;
-            font-size: 22px;
-            animation: explode 1.5s ease-out forwards;
-            filter: drop-shadow(0 0 10px #ffd700);
-        }
-        @keyframes explode {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
-        }
+  /* ===== PHONG BÌ ===== */
+  .envelope-screen { background: linear-gradient(135deg, #fce4ec, #f8bbd0); z-index: 60; }
+  .envelope-wrap { text-align: center; cursor: pointer; perspective: 1200px; }
+  .envelope-body {
+    position: relative; width: 290px; height: 200px; background: linear-gradient(145deg, #f48fb1 0%, #ec407a 100%);
+    border-radius: 12px; box-shadow: 0 24px 60px rgba(216,27,96,0.5), 0 6px 14px rgba(216,27,96,0.3);
+    transition: transform 0.4s ease; margin: 0 auto;
+  }
+  .envelope-wrap:hover .envelope-body { transform: translateY(-8px) scale(1.03); }
+  .envelope-flap {
+    position: absolute; top: 0; left: 0; width: 0; height: 0;
+    border-left: 145px solid transparent; border-right: 145px solid transparent;
+    border-top: 105px solid #d81b60; border-radius: 12px 12px 0 0;
+    transform-origin: top center; transition: transform 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55); z-index: 3;
+  }
+  .envelope-body.opened .envelope-flap { transform: rotateX(180deg); z-index: 1; }
+  .envelope-seal {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 64px; height: 64px; background: radial-gradient(circle at 30% 30%, #ffd54f, #ffb300 70%, #f57f17);
+    border-radius: 50%; display: flex; justify-content: center; align-items: center;
+    font-size: 30px; box-shadow: 0 6px 18px rgba(0,0,0,0.35), inset 0 -3px 6px rgba(0,0,0,0.15);
+    z-index: 4; transition: all 0.4s ease;
+  }
+  .envelope-body.opened .envelope-seal { opacity: 0; transform: translate(-50%, -220%) scale(0.4); }
+  .envelope-hint {
+    margin-top: 32px; font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: #d81b60;
+    font-weight: 700; animation: bounce 1.6s ease-in-out infinite; text-shadow: 0 2px 8px rgba(255,255,255,0.6);
+  }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* ===== ẢNH KỶ NIỆM BÊN TRÁI / BÊN PHẢI ===== */
-        .photoFrame {
-            position: fixed;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 6px solid #ffd700;
-            box-shadow:
-                0 0 30px #ff69b4,
-                0 0 60px #ff1493,
-                0 0 90px rgba(255, 105, 180, 0.6),
-                inset 0 0 15px rgba(255, 255, 255, 0.3);
-            /* Đặt z-index thấp hơn lá thư (20) để không che chữ */
-            z-index: 15;
-            pointer-events: none;
-            background: #fff;
-            opacity: 0;
-            top: 50%;
-            filter: blur(4px) brightness(0.8);
-            transition:
-                transform 8s cubic-bezier(0.2, 0.8, 0.3, 1),
-                filter 8s ease-out,
-                opacity 1.5s ease-out;
-        }
-        .photoFrame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        /* Vị trí bên trái */
-        .photoFrame.sideLeft {
-            left: 0;
-            transform: translate(-40%, -50%) scale(0.4);
-        }
-        .photoFrame.sideLeft.show {
-            transform: translate(-15%, -50%) scale(1);
-        }
-        /* Vị trí bên phải */
-        .photoFrame.sideRight {
-            right: 0;
-            transform: translate(40%, -50%) scale(0.4);
-        }
-        .photoFrame.sideRight.show {
-            transform: translate(15%, -50%) scale(1);
-        }
-        .photoFrame.show {
-            opacity: 1;
-            filter: blur(0px) brightness(1);
-        }
-        .photoFrame.fadeOut {
-            opacity: 0;
-            filter: blur(6px) brightness(1.2);
-            transition:
-                opacity 2s ease-in,
-                transform 2s ease-in,
-                filter 2s ease-in;
-        }
-        .photoFrame.fadeOut.sideLeft {
-            transform: translate(-40%, -50%) scale(0.9);
-        }
-        .photoFrame.fadeOut.sideRight {
-            transform: translate(40%, -50%) scale(0.9);
-        }
-        .photoFrame::before {
-            content: '';
-            position: absolute;
-            top: -15px; left: -15px; right: -15px; bottom: -15px;
-            border-radius: 50%;
-            background: conic-gradient(from 0deg, #ffd700, #ff69b4, #ff1493, #ffb3c6, #ffd700);
-            z-index: -1;
-            animation: rotateGlow 4s linear infinite;
-            opacity: 0.9;
-        }
-        @keyframes rotateGlow { to { transform: rotate(360deg); } }
+  /* ===== MINI GAME ===== */
+  .game-overlay { background: linear-gradient(135deg, #fce4ec, #f8bbd0); z-index: 50; }
+  .game-box { background: rgba(255,255,255,0.95); border-radius: 24px; padding: 22px; max-width: 480px; width: 100%; box-shadow: 0 20px 60px rgba(216,27,96,0.35); text-align: center; border: 2px solid #f8bbd0; margin: auto; }
+  .game-box h2 { font-family: 'Dancing Script', cursive; color: #d81b60; font-size: 1.9rem; margin-bottom: 6px; }
+  .game-box .desc { color: #4a2c3a; margin-bottom: 12px; font-size: 1rem; font-weight: 500; }
+  .score-display { font-size: 1.15rem; font-weight: 700; color: #d81b60; margin-bottom: 12px; padding: 8px 18px; background: #fce4ec; border-radius: 30px; display: inline-block; }
+  .game-area { position: relative; height: 340px; background: linear-gradient(180deg, #fff0f5, #fce4ec); border-radius: 16px; overflow: hidden; border: 2px dashed #f06292; }
+  .game-flower { position: absolute; top: -60px; font-size: 38px; cursor: pointer; user-select: none; -webkit-user-select: none; animation: gameFall linear forwards; filter: drop-shadow(0 3px 6px rgba(216,27,96,0.3)); z-index: 2; }
+  @keyframes gameFall { from { transform: translateY(0) rotate(0deg); } to { transform: translateY(420px) rotate(180deg); } }
+  .start-btn {
+    margin-top: 14px; padding: 14px 40px; background: linear-gradient(135deg, #ec407a, #d81b60); color: white;
+    border: none; border-radius: 30px; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 1.05rem;
+    cursor: pointer; box-shadow: 0 8px 22px rgba(216,27,96,0.4); transition: all 0.3s; letter-spacing: 0.5px;
+  }
+  .start-btn:hover { transform: translateY(-3px); }
+  .start-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        .miniHeart {
-            position: fixed;
-            pointer-events: none;
-            z-index: 16;
-            font-size: 22px;
-            text-shadow: 0 0 12px #ff69b4;
-            animation: miniHeartFloat 3s ease-out forwards;
-        }
-        @keyframes miniHeartFloat {
-            0% { transform: translateY(0) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-120px) scale(1.3); opacity: 0; }
-        }
+  /* ===== TẤM THIỆP (DỊU MẮT, BỎ 3D) ===== */
+  .card-inner {
+    background: linear-gradient(160deg, #fffcf9 0%, #fff0f5 100%); /* Nền kem ấm */
+    border-radius: 24px; padding: 40px 30px 34px; max-width: 480px; width: 100%; 
+    box-shadow: 0 20px 50px rgba(216,27,96,0.25); border: 2px solid #f8bbd0;
+    position: relative; text-align: center; margin: auto;
+    animation: floatSoft 4s ease-in-out infinite; /* Hiệu ứng hít thở nhẹ nhàng */
+  }
+  @keyframes floatSoft { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .card-inner::before, .card-inner::after { content: "🌷"; position: absolute; font-size: 32px; top: 12px; }
+  .card-inner::before { left: 15px; transform: rotate(-20deg); }
+  .card-inner::after { right: 15px; transform: rotate(20deg); }
+  
+  h1 { font-family: 'Dancing Script', cursive; font-size: 2.4rem; color: #d81b60; margin-bottom: 6px; line-height: 1.2; }
+  .subtitle { font-family: 'Playfair Display', serif; font-style: italic; color: #ad1457; font-size: 0.95rem; margin-bottom: 20px; opacity: 0.85; }
+  .divider { width: 60px; height: 3px; background: linear-gradient(90deg, transparent, #f06292, transparent); margin: 0 auto 22px; border-radius: 3px; }
+  
+  /* Chữ đậm, tương phản cao, dãn dòng rộng giúp mẹ đọc không mỏi mắt */
+  .message { font-size: 1.05rem; line-height: 1.95; color: #3b222b; text-align: justify; margin-bottom: 22px; font-weight: 500; transition: font-size 0.2s; }
+  .message p { margin-bottom: 14px; }
+  .message p:last-child { margin-bottom: 0; }
+  
+  .screen.card.show .message p { opacity: 0; animation: fadeUp 1s ease forwards; }
+  .screen.card.show .message p:nth-child(1) { animation-delay: 0.3s; }
+  .screen.card.show .message p:nth-child(2) { animation-delay: 1.3s; }
+  .screen.card.show .message p:nth-child(3) { animation-delay: 2.3s; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ===== NÚT HÀNH ĐỘNG ===== */
-        #actionBar {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 30;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 0 10px;
-        }
-        .actionBtn {
-            padding: 12px 25px;
-            background: rgba(30, 5, 20, 0.85);
-            border: 2px solid #ffd700;
-            color: #ffd700;
-            border-radius: 30px;
-            font-family: 'Georgia', serif;
-            font-size: 0.95rem;
-            letter-spacing: 2px;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), inset 0 0 15px rgba(255, 215, 0, 0.1);
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        .actionBtn:hover {
-            background: #ffd700;
-            color: #4a0e2a;
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.9);
-            transform: translateY(-3px);
-        }
+  .signature { font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: #d81b60; margin-bottom: 6px; }
+  
+  /* Bộ chỉnh cỡ chữ */
+  .font-controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+  .font-btn { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #f06292; background: #fff; color: #d81b60; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+  .font-btn:hover { background: #fce4ec; transform: scale(1.1); }
+  
+  .btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
+  .next-btn { padding: 14px 30px; background: linear-gradient(135deg, #ec407a, #d81b60); color: white; border: none; border-radius: 30px; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 0.95rem; cursor: pointer; box-shadow: 0 10px 26px rgba(216,27,96,0.45); transition: all 0.3s; }
+  .next-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(216,27,96,0.6); }
+  .read-btn { padding: 14px 24px; background: rgba(255,255,255,0.9); color: #d81b60; border: 2px solid #f06292; border-radius: 30px; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.3s; }
+  .read-btn:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(216,27,96,0.15); }
 
-        /* ===== MOBILE - ẢNH NHỎ HƠN ĐỂ KHÔNG CHE CHỮ ===== */
-        @media (max-width: 768px) {
-            #introScreen h1 { font-size: 1.4rem; letter-spacing: 3px; }
-            #introScreen p { font-size: 0.85rem; }
-            #openBtn { padding: 15px 40px; font-size: 1rem; letter-spacing: 2px; }
-            #mainTitle { font-size: 1.4rem; letter-spacing: 2px; }
-            #subTitle { font-size: 0.95rem; letter-spacing: 4px; }
-            #letter {
-                font-size: 0.95rem;
-                padding: 25px 22px;
-                margin-top: 20px;
-                line-height: 1.8;
-                width: 92%;
-            }
-            #letter::before { font-size: 3.5rem; top: -20px; }
-            .actionBtn { padding: 10px 18px; font-size: 0.8rem; }
-            /* Ảnh trên mobile nhỏ hơn và nép sát mép */
-            .photoFrame.sideLeft.show {
-                transform: translate(-35%, -50%) scale(1);
-            }
-            .photoFrame.sideRight.show {
-                transform: translate(35%, -50%) scale(1);
-            }
-        }
-    </style>
+  /* ===== ALBUM GLOBE ===== */
+  .album { z-index: 40; background: linear-gradient(135deg, rgba(252,228,236,0.95), rgba(248,187,208,0.9)); padding: 8px; overflow: hidden; }
+  .album-box { max-width: 680px; width: 100%; margin: auto; text-align: center; position: relative; }
+  .fs-btn { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.8); color: #d81b60; border: 1px solid #f06292; font-size: 18px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s; z-index: 50; }
+  .fs-btn:hover { background: #fff; transform: scale(1.1); }
+  .album-title { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: #d81b60; margin-bottom: 2px; text-shadow: 0 2px 12px rgba(255,255,255,0.9); }
+  .album-sub { font-size: 0.85rem; color: #ad1457; margin-bottom: 4px; font-weight: 600; font-style: italic; }
+
+  .globe-scene {
+    position: relative; width: 100%; height: 500px; cursor: grab; overflow: hidden;
+    background: radial-gradient(ellipse at 50% 55%, rgba(244,143,177,0.55) 0%, rgba(248,187,208,0.25) 40%, rgba(252,228,236,0) 75%), radial-gradient(circle at 50% 50%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 60%);
+    border-radius: 20px; user-select: none; -webkit-user-select: none; touch-action: pan-y;
+  }
+  .globe-scene:active { cursor: grabbing; }
+  .globe-scene::before { content: ''; position: absolute; top: 50%; left: 50%; width: 78%; height: 78%; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(255,192,220,0.45) 0%, rgba(244,143,177,0.25) 45%, rgba(248,187,208,0) 72%); pointer-events: none; filter: blur(20px); }
+  .globe-ring { position: absolute; top: 50%; left: 50%; width: 420px; height: 420px; max-width: 85vw; max-height: 85vw; border-radius: 50%; border: 3px solid transparent; border-top-color: rgba(216,27,96,0.6); border-right-color: rgba(236,64,122,0.35); border-bottom-color: rgba(255,213,79,0.45); border-left-color: rgba(248,187,208,0.3); transform: translate(-50%, -50%); animation: rotateRing 12s linear infinite; pointer-events: none; filter: blur(0.5px); }
+  .globe-ring::after { content: ''; position: absolute; inset: -8px; border-radius: 50%; box-shadow: 0 0 30px rgba(236,64,122,0.35), inset 0 0 30px rgba(255,213,79,0.15); }
+  @keyframes rotateRing { to { transform: translate(-50%, -50%) rotate(360deg); } }
+  .globe-shadow { position: absolute; left: 50%; bottom: 3%; width: 55%; height: 26px; transform: translateX(-50%); background: radial-gradient(ellipse, rgba(216,27,96,0.28) 0%, rgba(216,27,96,0) 70%); border-radius: 50%; pointer-events: none; filter: blur(4px); }
+
+  .globe-card {
+    position: absolute; left: 50%; top: 50%; width: 112px; height: 140px;
+    background: linear-gradient(160deg, #ffffff 0%, #fff5f9 100%); padding: 7px; border-radius: 9px;
+    box-shadow: 0 12px 26px rgba(216,27,96,0.28), 0 2px 6px rgba(216,27,96,0.15), 0 0 0 1px rgba(216,27,96,0.06) inset;
+    will-change: transform, opacity; transform-origin: 50% 50%; cursor: pointer;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: box-shadow 0.25s;
+  }
+  .globe-card:hover { box-shadow: 0 16px 36px rgba(216,27,96,0.55), 0 4px 10px rgba(216,27,96,0.3); }
+  .globe-card-inner { width: 100%; height: 100%; background: linear-gradient(135deg, #fce4ec, #f8bbd0); border-radius: 5px; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+  .globe-card img { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+  .globe-card .ph { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #ad1457; font-weight: 700; font-size: 0.55rem; text-align: center; padding: 4px; gap: 2px; line-height: 1.2; }
+  .globe-card .ph span:first-child { font-size: 1.6rem; }
+
+  .album-back { margin-top: 15px; padding: 10px 24px; background: rgba(255,255,255,0.9); color: #d81b60; border: 2px solid #f06292; border-radius: 30px; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.25s; }
+  .album-back:hover { background: #fff; transform: translateY(-2px); }
+
+  /* ===== FULLVIEW ===== */
+  .fullview { position: fixed; inset: 0; z-index: 200; background: rgba(20, 5, 15, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+  .fullview.show { opacity: 1; pointer-events: auto; }
+  .fullview-bg { position: absolute; inset: -50px; background-size: cover; background-position: center; opacity: 0.35; filter: blur(30px) saturate(1.5); z-index: 1; transition: background-image 0.5s ease; pointer-events: none; }
+  .fv-progress { position: absolute; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, #ec407a, #ffd54f); z-index: 15; box-shadow: 0 0 12px #ec407a; transition: width 0.1s linear; }
+  .fullview-img-wrap { position: relative; transform: scale(0.6); transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1); display: flex; justify-content: center; align-items: center; overflow: hidden; border-radius: 14px; z-index: 2; }
+  .fullview.show .fullview-img-wrap { transform: scale(1); }
+  .fullview img { max-width: 88vw; max-height: 72vh; object-fit: contain; border-radius: 14px; box-shadow: 0 25px 80px rgba(0,0,0,0.85), 0 0 0 3px rgba(248,187,208,0.35); display: block; background: #1a0a12; transition: opacity 0.3s; }
+  .fullview img.ken-burns { animation: kenBurns 5s ease-out forwards; }
+  @keyframes kenBurns { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+  .fullview-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; background: rgba(248,187,208,0.15); border: 2px solid rgba(248,187,208,0.5); color: #fff; font-size: 22px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.25s; z-index: 5; }
+  .fullview-nav:hover { background: rgba(248,187,208,0.4); transform: translateY(-50%) scale(1.1); }
+  .fullview-nav.prev { left: 20px; }
+  .fullview-nav.next { right: 20px; }
+  .fullview-close { position: absolute; top: 20px; right: 20px; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #ec407a, #d81b60); color: #fff; font-size: 26px; border: none; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); z-index: 10; box-shadow: 0 6px 20px rgba(216,27,96,0.5); }
+  .fullview-close:hover { transform: scale(1.15) rotate(90deg); }
+  .fullview-download { position: absolute; top: 20px; right: 85px; width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; font-size: 22px; border: 2px solid rgba(248,187,208,0.5); cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s; z-index: 10; }
+  .fullview-download:hover { background: rgba(248,187,208,0.4); transform: scale(1.1); }
+  .fullview-caption { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); color: #fff; font-weight: 700; font-size: 0.9rem; background: rgba(216,27,96,0.85); padding: 6px 20px; border-radius: 20px; letter-spacing: 1px; z-index: 5; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .thumb-strip { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; max-width: 92vw; overflow-x: auto; padding: 6px 10px; background: rgba(0,0,0,0.45); border-radius: 14px; backdrop-filter: blur(6px); scrollbar-width: none; z-index: 5; }
+  .thumb-strip::-webkit-scrollbar { display: none; }
+  .thumb { width: 46px; height: 46px; border-radius: 7px; overflow: hidden; cursor: pointer; flex-shrink: 0; border: 2px solid transparent; transition: all 0.25s; background: #333; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  .thumb.active { border-color: #ec407a; transform: scale(1.18); box-shadow: 0 0 14px rgba(236,64,122,0.9); }
+
+  /* ===== NHẠC (ĐĨA THAN) ===== */
+  .music-container { position: fixed; top: 15px; right: 15px; z-index: 100; display: flex; align-items: center; gap: 12px; }
+  .vinyl-record { width: 52px; height: 52px; border-radius: 50%; background: radial-gradient(circle at center, #333 0%, #111 40%, #333 41%, #111 60%, #333 61%, #111 100%); border: 2px solid #444; box-shadow: 0 6px 16px rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; animation: spinVinyl 4s linear infinite; animation-play-state: paused; }
+  .vinyl-record.playing { animation-play-state: running; }
+  .vinyl-center { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #ec407a, #d81b60); border: 2px solid #fff; display: flex; justify-content: center; align-items: center; color: white; font-size: 10px; }
+  @keyframes spinVinyl { to { transform: rotate(360deg); } }
+  .visualizer { display: flex; align-items: flex-end; gap: 2px; height: 24px; }
+  .visualizer span { width: 4px; background: #ec407a; border-radius: 2px; height: 100%; animation: bounceVis 1.2s ease-in-out infinite alternate; transform-origin: bottom; }
+  .visualizer span:nth-child(2) { animation-delay: 0.2s; background: #ffd54f; }
+  .visualizer span:nth-child(3) { animation-delay: 0.4s; }
+  .visualizer span:nth-child(4) { animation-delay: 0.1s; background: #ba68c8; }
+  @keyframes bounceVis { 0% { transform: scaleY(0.2); } 100% { transform: scaleY(1); } }
+  .visualizer.paused span { animation-play-state: paused; opacity: 0.5; }
+
+  @media (max-width: 640px) {
+    .fullview img { max-height: 65vh; }
+    .fullview-caption { bottom: 75px; font-size: 0.8rem; }
+    .globe-scene { height: 420px; }
+    .globe-card { width: 90px; height: 113px; padding: 5px; }
+    .globe-ring { width: 340px; height: 340px; }
+    .fullview-nav { width: 44px; height: 44px; font-size: 18px; }
+    .fullview-nav.prev { left: 10px; }
+    .fullview-nav.next { right: 10px; }
+    .fullview-close { width: 44px; height: 44px; font-size: 22px; top: 12px; right: 12px; }
+    .fullview-download { width: 44px; height: 44px; top: 12px; right: 70px; font-size: 18px; }
+    .thumb { width: 40px; height: 40px; }
+    .thumb-strip { bottom: 12px; gap: 4px; padding: 4px 8px; }
+    .envelope-body { width: 240px; height: 165px; }
+    .envelope-flap { border-left-width: 120px; border-right-width: 120px; border-top-width: 87px; }
+    .envelope-seal { width: 54px; height: 54px; font-size: 26px; }
+  }
+  @media (max-width: 480px) {
+    h1 { font-size: 1.95rem; }
+    .card-inner { padding: 32px 22px 28px; }
+    .message { font-size: 0.95rem; }
+    .game-area { height: 300px; }
+    .globe-scene { height: 380px; }
+    .globe-card { width: 82px; height: 103px; padding: 4px; }
+    .globe-ring { width: 290px; height: 290px; }
+  }
+</style>
 </head>
 <body>
-    <canvas id="bgCanvas"></canvas>
-    <audio id="bgMusic" src="NoiAyConTimVe.mp3" loop preload="auto"></audio>
 
-    <!-- MÀN HÌNH MỞ ĐẦU -->
-    <div id="introScreen">
-        <div class="decoFlower" style="top: 10%; left: 10%;">🌹</div>
-        <div class="decoFlower" style="top: 20%; right: 12%; animation-duration: 12s;">🌸</div>
-        <div class="decoFlower" style="bottom: 15%; left: 8%; animation-duration: 14s;">💐</div>
-        <div class="decoFlower" style="bottom: 12%; right: 10%; animation-duration: 9s;">🌷</div>
-        <h1>NGÀY PHỤ NỮ VIỆT NAM<br>20 / 10</h1>
-        <p>Món quà nhỏ gửi đến người phụ nữ<br>tuyệt vời nhất cuộc đời con</p>
-        <button id="openBtn">❤ MỞ THIỆP ❤</button>
+<div class="aurora"></div>
+
+<audio id="bgMusic" loop>
+  <source src="NoiAyConTimVe.mp3" type="audio/mpeg">
+</audio>
+
+<!-- NHẠC -->
+<div class="music-container">
+  <div class="visualizer paused" id="visualizer">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="vinyl-record" id="musicBtn" title="Bật/Tắt nhạc">
+    <div class="vinyl-center">🎵</div>
+  </div>
+</div>
+
+<!-- NÚT THẢ TIM -->
+<div class="fab-group">
+  <button class="heart-fab" id="heartFab" title="Gửi yêu thương">❤️</button>
+</div>
+
+<!-- MÀN 0: PHONG BÌ -->
+<div class="screen show envelope-screen" id="screenEnvelope">
+  <div>
+    <div class="envelope-wrap" id="envelopeWrap">
+      <div class="envelope-body" id="envelopeBody">
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal">💌</div>
+      </div>
+    </div>
+    <div class="envelope-hint">Chạm để mở thiệp</div>
+  </div>
+</div>
+
+<!-- MÀN 1: GAME -->
+<div class="screen game-overlay" id="screenGame">
+  <div class="game-box">
+    <h2>🌸 Trò Chơi Nhỏ Tặng Mẹ 🌸</h2>
+    <p class="desc">Mẹ hãy chạm vào 10 bông hoa đang rơi để mở thiệp nhé!</p>
+    <div class="score-display">🌸 Đã hái: <span id="score">0</span> / 10</div>
+    <div class="game-area" id="gameArea"></div>
+    <button class="start-btn" id="startBtn">▶ Bắt đầu chơi</button>
+  </div>
+</div>
+
+<!-- MÀN 2: THIỆP -->
+<div class="screen card" id="screenCard">
+  <div class="card-inner box-pop" id="cardInner">
+    <h1>Gửi Mẹ Yêu ❤️</h1>
+    <div class="subtitle">Nhân ngày Phụ nữ Việt Nam 20/10</div>
+    <div class="divider"></div>
+    
+    <!-- Nút chỉnh cỡ chữ -->
+    <div class="font-controls">
+      <button class="font-btn" id="fontDown" title="Thu nhỏ chữ">A-</button>
+      <button class="font-btn" id="fontUp" title="Phóng to chữ">A+</button>
     </div>
 
-    <!-- MÀN HÌNH CHÍNH -->
-    <div id="mainScreen">
-        <h1 id="mainTitle">Chúc Mừng 20/10 Mẹ Yêu</h1>
-        <div id="subTitle">❤ Con yêu mẹ nhiều lắm ❤</div>
-
-        <div id="letter">
-            <p>Mẹ yêu dấu,</p>
-            <p>Hôm nay ngày 20/10, con muốn dành những lời chân thành nhất để gửi đến mẹ, người phụ nữ tuyệt vời nhất trong cuộc đời con.</p>
-            <p>Cảm ơn mẹ đã sinh ra con, đã nuôi dạy con bằng tất cả tình yêu thương và sự hy sinh thầm lặng. Những bữa cơm mẹ nấu, những lời mẹ dạy, những cái ôm mẹ trao, tất cả đều là kho báu quý giá nhất mà con may mắn được nhận.</p>
-            <p>Chúc mẹ ngày 20/10 thật nhiều niềm vui, luôn xinh đẹp rạng ngời, mạnh khỏe và hạnh phúc. Con mong mẹ mãi mãi là người phụ nữ mạnh mẽ, dịu dàng mà con luôn tự hào.</p>
-            <p>Con yêu mẹ nhiều hơn tất cả những gì con có thể nói ra.</p>
-            <div id="signature">— Con yêu của mẹ ❤</div>
-        </div>
+    <div class="message" id="messageText">
+      <p>Mẹ ơi, con chẳng biết nói gì hơn ngoài hai chữ <strong>"cảm ơn"</strong> và <strong>"yêu mẹ"</strong>. Cảm ơn mẹ đã sinh con ra, đã nuôi con khôn lớn bằng cả tuổi xuân và những giọt mồ hôi thầm lặng.</p>
+      <p>Con biết mẹ đã thức bao đêm lo con ốm, đã nhịn ăn để dành phần ngon cho con, đã cố gắng mỗi ngày chỉ để con có một cuộc sống tốt hơn.</p>
+      <p>20/10 hôm nay, con chúc mẹ luôn mạnh khỏe, vui vẻ, và hãy sống cho chính mình nhiều hơn một chút mẹ nhé. Con yêu mẹ rất nhiều. 🌸</p>
     </div>
-
-    <button id="musicToggle">🔊</button>
-
-    <div id="actionBar" style="display: none;">
-        <button class="actionBtn" id="fireworksBtn">🎆 Bắn pháo hoa</button>
-        <button class="actionBtn" id="heartsBtn">❤️ Thả tim</button>
-        <button class="actionBtn" id="photosBtn">📸 Ảnh kỷ niệm</button>
+    <div class="signature">— Con của Mẹ 💖</div>
+    
+    <div class="btn-group">
+      <button class="next-btn" id="toAlbumBtn">🌍 Xem Album →</button>
+      <button class="read-btn" id="readBtn">🔊 Nghe con đọc</button>
     </div>
+  </div>
+</div>
 
-    <script>
-    // ============================================================
-    // THIỆP 20/10 GỬI MẸ - NSMOD (FINAL)
-    // Ảnh bên trái / phải luân phiên, không che chữ
-    // ============================================================
+<!-- MÀN 3: ALBUM GLOBE -->
+<div class="screen album" id="screenAlbum">
+  <div class="album-box box-pop">
+    <button class="fs-btn" id="fsBtn" title="Toàn màn hình">⛶</button>
+    <div class="album-title">Album Kỷ Niệm 💕</div>
+    <div class="album-sub">Kéo để xoay · Chạm ảnh để phóng to</div>
+    
+    <div class="globe-scene" id="globeScene">
+      <div class="globe-ring"></div>
+      <div class="globe-shadow"></div>
+      <div class="globe" id="globe"></div>
+    </div>
+    
+    <button class="album-back" id="backBtn">← Về lại thiệp</button>
+  </div>
+</div>
 
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-    let W, H;
-    let started = false;
+<!-- FULLVIEW -->
+<div class="fullview" id="fullview">
+  <div class="fullview-bg" id="fullviewBg"></div>
+  <div class="fv-progress" id="fvProgress"></div>
+  
+  <button class="fullview-download" id="fvDownload" title="Tải ảnh">💾</button>
+  <button class="fullview-close" id="fullviewClose" title="Đóng (ESC)">×</button>
+  <button class="fullview-nav prev" id="fvPrev" title="Ảnh trước (←)">❮</button>
+  <button class="fullview-nav next" id="fvNext" title="Ảnh sau (→)">❯</button>
+  
+  <div class="fullview-img-wrap">
+    <img id="fullviewImg" src="" alt="">
+  </div>
+  
+  <div class="fullview-caption" id="fullviewCaption">1 / 18</div>
+  <div class="thumb-strip" id="thumbStrip"></div>
+</div>
 
-    const bgMusic = document.getElementById('bgMusic');
-    const musicToggle = document.getElementById('musicToggle');
-    let isMusicPlaying = false;
+<script>
+  const TOTAL_PHOTOS = 18;
 
-    const particles = [];
+  /* ===== HIỆU ỨNG NỀN ===== */
+  for (let i = 0; i < 40; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random()*100 + 'vw';
+    s.style.top = Math.random()*100 + 'vh';
+    s.style.animationDelay = (Math.random()*3) + 's';
+    s.style.animationDuration = (2 + Math.random()*2) + 's';
+    const sz = 2 + Math.random()*3;
+    s.style.width = sz + 'px'; s.style.height = sz + 'px';
+    document.body.appendChild(s);
+  }
+  const bubbleColors = ['rgba(236,64,122,0.6)', 'rgba(255,213,79,0.6)', 'rgba(186,104,200,0.6)', 'rgba(255,255,255,0.8)'];
+  for (let i = 0; i < 15; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const size = 20 + Math.random() * 50;
+    b.style.width = size + 'px'; b.style.height = size + 'px';
+    b.style.left = Math.random() * 100 + 'vw';
+    b.style.animationDuration = (10 + Math.random() * 10) + 's';
+    b.style.animationDelay = (Math.random() * 5) + 's';
+    const c = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
+    b.style.background = `radial-gradient(circle at 30% 30%, #fff, ${c})`;
+    document.body.appendChild(b);
+  }
+  const flowers = ['🌸','🌺','🌷','💐','🌼','🌹'];
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal'; p.textContent = flowers[Math.floor(Math.random()*flowers.length)];
+    p.style.left = Math.random()*100 + 'vw';
+    p.style.animationDuration = (7 + Math.random()*8) + 's';
+    p.style.animationDelay = (Math.random()*6) + 's';
+    p.style.fontSize = (16 + Math.random()*16) + 'px';
+    document.body.appendChild(p);
+  }
+  const hearts = ['💖','💕','❤️','💗','💝'];
+  for (let i = 0; i < 12; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart'; h.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+    h.style.left = Math.random()*100 + 'vw';
+    h.style.animationDuration = (8 + Math.random()*6) + 's';
+    h.style.animationDelay = (Math.random()*8) + 's';
+    h.style.fontSize = (14 + Math.random()*12) + 'px';
+    document.body.appendChild(h);
+  }
 
-    function resizeCanvas() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
+  /* ===== CHUYỂN MÀN HÌNH ===== */
+  const screens = {
+    envelope: document.getElementById('screenEnvelope'),
+    game: document.getElementById('screenGame'),
+    card: document.getElementById('screenCard'),
+    album: document.getElementById('screenAlbum')
+  };
+  function showScreen(name) {
+    Object.values(screens).forEach(s => s.classList.remove('show'));
+    screens[name].classList.add('show');
+  }
+
+  /* ===== THẢ TIM BAY ===== */
+  const heartFab = document.getElementById('heartFab');
+  heartFab.addEventListener('click', (e) => { spawnHearts(e.clientX, e.clientY); });
+  heartFab.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    spawnHearts(touch.clientX, touch.clientY);
+  }, { passive: false });
+
+  function spawnHearts(x, y) {
+    const emojis = ['❤️','💖','💕','💗','💝','🌸'];
+    for (let i = 0; i < 18; i++) {
+      const h = document.createElement('div');
+      h.className = 'flying-heart';
+      h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      h.style.left = x + 'px'; h.style.top = y + 'px';
+      h.style.fontSize = (16 + Math.random() * 20) + 'px';
+      h.style.setProperty('--tx', `${(Math.random() - 0.5) * 250}px`);
+      h.style.setProperty('--ty', `${-150 - Math.random() * 200}px`);
+      h.style.setProperty('--rot', `${(Math.random()-0.5)*90}deg`);
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 1500);
     }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+  }
 
-    // Hạt nền
-    for (let i = 0; i < 150; i++) {
-        particles.push({
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            vx: (Math.random() - 0.5) * 0.4,
-            vy: (Math.random() - 0.5) * 0.4,
-            size: Math.random() * 2 + 0.5,
-            alpha: Math.random() * 0.7 + 0.3,
-            hue: Math.random() < 0.5 ? 330 + Math.random() * 30 : 50 + Math.random() * 15
-        });
+  /* ===== PHONG BÌ ===== */
+  const envelopeWrap = document.getElementById('envelopeWrap');
+  const envelopeBody = document.getElementById('envelopeBody');
+  let envelopeOpened = false;
+  envelopeWrap.addEventListener('click', () => {
+    if (envelopeOpened) return;
+    envelopeOpened = true;
+    envelopeBody.classList.add('opened');
+    setTimeout(() => showScreen('game'), 1000);
+  });
+
+  /* ===== NHẠC & VISUALIZER (TỰ ĐỘNG BẬT) ===== */
+  const bgMusic = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+  const visualizer = document.getElementById('visualizer');
+  let musicStarted = false;
+
+  function playMusic() {
+    if (musicStarted) return;
+    bgMusic.volume = 0.55;
+    bgMusic.play().then(() => {
+      musicStarted = true;
+      musicBtn.classList.add('playing');
+      visualizer.classList.remove('paused');
+    }).catch(err => { console.log('Chờ tương tác để phát nhạc'); });
+  }
+  playMusic(); // Thử phát ngay
+
+  function firstInteraction() {
+    if (!musicStarted) playMusic();
+    document.removeEventListener('click', firstInteraction);
+    document.removeEventListener('touchstart', firstInteraction);
+    document.removeEventListener('keydown', firstInteraction);
+  }
+  document.addEventListener('click', firstInteraction);
+  document.addEventListener('touchstart', firstInteraction);
+  document.addEventListener('keydown', firstInteraction);
+
+  musicBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (bgMusic.paused) {
+      bgMusic.play();
+      musicBtn.classList.add('playing');
+      visualizer.classList.remove('paused');
+    } else {
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+      visualizer.classList.add('paused');
+    }
+  });
+
+  /* ===== ĐỌC LỜI CHÚC (ĐÃ FIX) ===== */
+  const readBtn = document.getElementById('readBtn');
+  let isReading = false;
+  let viVoice = null;
+
+  function loadVoices() {
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      viVoice = voices.find(v => v.lang.includes('vi') && (v.name.includes('Female') || v.name.includes('Nữ') || v.name.includes('Google'))) 
+             || voices.find(v => v.lang.includes('vi')) 
+             || voices.find(v => v.lang === 'vi-VN');
+    }
+  }
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+
+  function chunkText(text) {
+    return text.match(/[^.!?]+[.!?]+/g) || [text];
+  }
+
+  readBtn.addEventListener('click', () => {
+    if (isReading || window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+      isReading = false;
+      readBtn.textContent = '🔊 Nghe con đọc';
+      return;
     }
 
-    function drawBackground() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
-        ctx.fillRect(0, 0, W, H);
+    const textToRead = "Mẹ ơi, con chẳng biết nói gì hơn ngoài hai chữ cảm ơn và yêu mẹ. Cảm ơn mẹ đã sinh con ra, đã nuôi con khôn lớn bằng cả tuổi xuân và những giọt mồ hôi thầm lặng. Con biết mẹ đã thức bao đêm lo con ốm, đã nhịn ăn để dành phần ngon cho con, đã cố gắng mỗi ngày chỉ để con có một cuộc sống tốt hơn. Nhân ngày 20 tháng 10, con chúc mẹ luôn mạnh khỏe, vui vẻ, và hãy sống cho chính mình nhiều hơn một chút mẹ nhé. Con yêu mẹ rất nhiều.";
+    
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.resume();
 
-        for (const p of particles) {
-            p.x += p.vx;
-            p.y += p.vy;
-            if (p.x < 0 || p.x > W) p.vx *= -1;
-            if (p.y < 0 || p.y > H) p.vy *= -1;
+    const chunks = chunkText(textToRead);
+    isReading = true;
+    readBtn.textContent = '⏹ Dừng đọc';
 
-            ctx.beginPath();
-            ctx.fillStyle = `hsla(${p.hue}, 100%, 70%, ${p.alpha})`;
-            ctx.shadowColor = `hsla(${p.hue}, 100%, 60%, 1)`;
-            ctx.shadowBlur = 15;
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fill();
+    chunks.forEach((chunk, index) => {
+      const utt = new SpeechSynthesisUtterance(chunk.trim());
+      utt.lang = 'vi-VN';
+      utt.rate = 0.9;
+      utt.pitch = 1.1;
+      if (viVoice) utt.voice = viVoice;
+
+      if (index === chunks.length - 1) {
+        utt.onend = () => { isReading = false; readBtn.textContent = '🔊 Nghe con đọc'; };
+      }
+
+      utt.onerror = (e) => {
+        if (e.error !== 'canceled' && e.error !== 'interrupted') {
+          isReading = false;
+          readBtn.textContent = '🔊 Nghe con đọc';
+          alert('Thiết bị chưa cài đặt giọng đọc Tiếng Việt. Hãy vào Cài đặt hệ thống để thêm gói ngôn ngữ Tiếng Việt nhé!');
         }
-        ctx.shadowBlur = 0;
-        requestAnimationFrame(drawBackground);
-    }
-    drawBackground();
-
-    // ============================================================
-    // PHÁT NHẠC
-    // ============================================================
-    function playMusic() {
-        bgMusic.volume = 0.7;
-        const playPromise = bgMusic.play();
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                isMusicPlaying = true;
-                musicToggle.textContent = '🔊';
-                musicToggle.style.display = 'flex';
-            }).catch(error => {
-                console.log('Trình duyệt chặn:', error);
-                musicToggle.textContent = '🔇';
-                musicToggle.style.display = 'flex';
-            });
-        }
-    }
-
-    musicToggle.addEventListener('click', () => {
-        if (isMusicPlaying) {
-            bgMusic.pause();
-            musicToggle.textContent = '🔇';
-            isMusicPlaying = false;
-        } else {
-            bgMusic.play();
-            musicToggle.textContent = '🔊';
-            isMusicPlaying = true;
-        }
+      };
+      window.speechSynthesis.speak(utt);
     });
+  });
 
-    // ============================================================
-    // HOA RƠI
-    // ============================================================
-    const flowers = ['🌹', '🌸', '💐', '🌷', '🌺', '🌻', '💮', '🏵️'];
+  /* ===== CHỈNH CỠ CHỮ ===== */
+  const messageText = document.getElementById('messageText');
+  let currentFontSize = 1.05;
 
-    function spawnFallingFlower() {
-        const f = document.createElement('div');
-        f.className = 'fallingFlower';
-        f.textContent = flowers[Math.floor(Math.random() * flowers.length)];
-        f.style.left = Math.random() * 100 + 'vw';
-        f.style.fontSize = (20 + Math.random() * 25) + 'px';
-        f.style.animationDuration = (6 + Math.random() * 5) + 's';
-        f.style.animationDelay = (Math.random() * 2) + 's';
-        document.body.appendChild(f);
-        setTimeout(() => f.remove(), 13000);
+  document.getElementById('fontUp').addEventListener('click', () => {
+    if (currentFontSize < 1.6) {
+      currentFontSize += 0.1;
+      messageText.style.fontSize = currentFontSize + 'rem';
     }
+  });
 
-    // ============================================================
-    // TIM BAY
-    // ============================================================
-    const heartEmojis = ['❤️', '💖', '💕', '💗', '💝', '💓', '💞', '💘', '❣️', '💟'];
-
-    function spawnFloatingHeart() {
-        const h = document.createElement('div');
-        h.className = 'floatHeart';
-        h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-        h.style.left = Math.random() * 100 + 'vw';
-        h.style.bottom = '-50px';
-        h.style.fontSize = (20 + Math.random() * 25) + 'px';
-        h.style.animationDuration = (5 + Math.random() * 4) + 's';
-        document.body.appendChild(h);
-        setTimeout(() => h.remove(), 10000);
+  document.getElementById('fontDown').addEventListener('click', () => {
+    if (currentFontSize > 0.85) {
+      currentFontSize -= 0.1;
+      messageText.style.fontSize = currentFontSize + 'rem';
     }
+  });
 
-    // ============================================================
-    // PHÁO HOA
-    // ============================================================
-    function spawnFirework(x, y) {
-        const emojis = ['✨', '💥', '🌟', '💫', '⭐', '🎉', '🎊', '🌸', '💝'];
-        const colors = ['#ffd700', '#ff69b4', '#ff1493', '#ffb3c6', '#fff'];
-        for (let i = 0; i < 15; i++) {
-            const f = document.createElement('div');
-            f.className = 'firework';
-            f.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            f.style.left = x + 'px';
-            f.style.top = y + 'px';
-            f.style.fontSize = (15 + Math.random() * 20) + 'px';
-            f.style.animationDuration = (1 + Math.random() * 0.8) + 's';
-            f.style.animationDelay = (Math.random() * 0.4) + 's';
-            f.style.color = colors[Math.floor(Math.random() * colors.length)];
-            document.body.appendChild(f);
-            setTimeout(() => f.remove(), 2500);
-        }
+  /* ===== CONFETTI ===== */
+  function launchConfetti() {
+    const colors = ['#ec407a', '#f8bbd0', '#ffd54f', '#81d4fa', '#ba68c8', '#ff8a65', '#fff'];
+    for (let i = 0; i < 60; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = '50%'; c.style.top = '50%';
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 200 + Math.random() * 500;
+      c.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+      c.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+      c.style.setProperty('--rot', (Math.random()*720) + 'deg');
+      c.style.animationDelay = (Math.random()*0.2) + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 2300);
     }
+  }
 
-    function burstFireworks() {
-        for (let i = 0; i < 5; i++) {
-            setTimeout(() => {
-                spawnFirework(Math.random() * W, Math.random() * H * 0.7);
-            }, i * 200);
-        }
+  /* ===== MINI GAME ===== */
+  const gameArea = document.getElementById('gameArea');
+  const scoreEl = document.getElementById('score');
+  const startBtn = document.getElementById('startBtn');
+  const gameFlowers = ['🌸','🌺','🌷','🌹','🌼','💮','🏵️'];
+  const WIN_SCORE = 10;
+  let score = 0, gameActive = false, spawnInterval = null;
+
+  const st = document.createElement('style');
+  st.textContent = `@keyframes burstAnim { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(2) translateY(-30px); opacity: 0; } }`;
+  document.head.appendChild(st);
+
+  function spawnFlower() {
+    if (!gameActive) return;
+    const f = document.createElement('div');
+    f.className = 'game-flower';
+    f.textContent = gameFlowers[Math.floor(Math.random()*gameFlowers.length)];
+    f.style.left = (Math.random()*85) + '%';
+    const duration = 3.5 + Math.random()*2;
+    f.style.animationDuration = duration + 's';
+    const catchFlower = (e) => {
+      e.preventDefault();
+      if (!gameActive || f.dataset.caught) return;
+      f.dataset.caught = '1';
+      score++;
+      scoreEl.textContent = score;
+      const burst = document.createElement('div');
+      burst.textContent = '✨';
+      burst.style.cssText = `position:absolute;left:${f.style.left};top:${f.offsetTop}px;font-size:32px;pointer-events:none;animation:burstAnim 0.6s ease-out forwards;`;
+      gameArea.appendChild(burst);
+      setTimeout(() => burst.remove(), 600);
+      f.remove();
+      if (score >= WIN_SCORE) winGame();
+    };
+    f.addEventListener('click', catchFlower);
+    f.addEventListener('touchstart', catchFlower, { passive: false });
+    gameArea.appendChild(f);
+    setTimeout(() => { if (f.parentNode) f.remove(); }, duration*1000 + 200);
+  }
+
+  function startGame() {
+    if (gameActive) return;
+    gameActive = true;
+    score = 0;
+    scoreEl.textContent = 0;
+    startBtn.disabled = true;
+    startBtn.textContent = '🎮 Đang chơi...';
+    gameArea.innerHTML = '';
+    spawnInterval = setInterval(spawnFlower, 850);
+    spawnFlower();
+    setTimeout(spawnFlower, 300);
+  }
+
+  function winGame() {
+    gameActive = false;
+    clearInterval(spawnInterval);
+    scoreEl.textContent = WIN_SCORE;
+    startBtn.textContent = '🎉 Đã mở thiệp!';
+    launchConfetti();
+    setTimeout(() => showScreen('card'), 1200);
+  }
+  startBtn.addEventListener('click', startGame);
+
+  /* ===== ALBUM GLOBE 3D ===== */
+  const globeScene = document.getElementById('globeScene');
+  const globe = document.getElementById('globe');
+  const fullview = document.getElementById('fullview');
+  const fullviewImg = document.getElementById('fullviewImg');
+  const fullviewBg = document.getElementById('fullviewBg');
+  const fullviewCaption = document.getElementById('fullviewCaption');
+  const fullviewClose = document.getElementById('fullviewClose');
+  const fvDownload = document.getElementById('fvDownload');
+  const fvPrev = document.getElementById('fvPrev');
+  const fvNext = document.getElementById('fvNext');
+  const fvProgress = document.getElementById('fvProgress');
+  const thumbStrip = document.getElementById('thumbStrip');
+
+  const state = {
+    rotY: 0, auto: true, speed: 0.12, 
+    dragging: false, dragStartX: 0, dragStartRot: 0, dragMoved: 0
+  };
+
+  let radius = 190;
+  let cards = [];
+  let currentPhotoIndex = 0;
+  let autoBeforeFullview = true;
+  let autoplayInterval = null;
+  let progressMs = 0;
+  const AUTOPLAY_MS = 5000;
+
+  function calcRadius() {
+    return Math.min(globeScene.clientWidth, globeScene.clientHeight) * 0.38;
+  }
+
+  function buildGlobe() {
+    globe.innerHTML = '';
+    cards = [];
+    radius = calcRadius();
+    const N = TOTAL_PHOTOS;
+    const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+    for (let i = 0; i < N; i++) {
+      const y = 1 - ((i + 0.5) / N) * 2;
+      const r = Math.sqrt(Math.max(0, 1 - y*y));
+      const theta = goldenAngle * i;
+      const x = Math.cos(theta) * r;
+      const z = Math.sin(theta) * r;
+      const phi = Math.atan2(x, z);
+      const psi = Math.asin(y);
+
+      const card = document.createElement('div');
+      card.className = 'globe-card';
+      const inner = document.createElement('div');
+      inner.className = 'globe-card-inner';
+
+      const img = document.createElement('img');
+      img.src = `photo${i+1}.jpg`;
+      img.onerror = () => {
+        img.remove();
+        const ph = document.createElement('div');
+        ph.className = 'ph';
+        ph.innerHTML = `<span>🖼️</span><span>photo${i+1}.jpg</span>`;
+        inner.appendChild(ph);
+      };
+      inner.appendChild(img);
+      card.appendChild(inner);
+
+      card.addEventListener('click', (e) => {
+        if (state.dragMoved > 6) return;
+        e.stopPropagation();
+        openFullview(i);
+      });
+
+      globe.appendChild(card);
+      cards.push({ el: card, phi, psi });
     }
+  }
 
-    // ============================================================
-    // ẢNH KỶ NIỆM - LUÂN PHIÊN TRÁI / PHẢI
-    // ============================================================
-    const photos = [
-        'photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg',
-        'photo5.jpg', 'photo6.jpg', 'photo7.jpg', 'photo8.jpg',
-        'photo9.jpg', 'photo10.jpg', 'photo11.jpg', 'photo12.jpg',
-        'photo13.jpg', 'photo14.jpg', 'photo15.jpg', 'photo16.jpg',
-        'photo17.jpg', 'photo18.jpg'
-    ];
+  function render() {
+    const R = radius;
+    const rot = state.rotY * Math.PI / 180;
+    const tiltX = 0.18;
+    const cosT = Math.cos(tiltX);
+    const sinT = Math.sin(tiltX);
 
-    let photoIndex = 0;
-    let sideFlip = 0; // 0 = trái, 1 = phải
-
-    // Tính kích thước ảnh dựa trên khoảng trống hai bên lá thư
-    function getPhotoSize() {
-        const letterWidth = Math.min(W * 0.9, 600);
-        // Khoảng trống mỗi bên = (W - letterWidth) / 2
-        const sideSpace = (W - letterWidth) / 2;
-        // Ảnh chiếm khoảng 90% khoảng trống, tối đa 380px, tối thiểu 140px
-        let size = sideSpace * 1.7;
-        size = Math.max(140, Math.min(380, size));
-        return size;
+    for (let i = 0; i < cards.length; i++) {
+      const c = cards[i];
+      const phi = c.phi + rot;
+      const cosPsi = Math.cos(c.psi);
+      const sinPsi = Math.sin(c.psi);
+      let x = Math.sin(phi) * cosPsi * R;
+      let z = Math.cos(phi) * cosPsi * R;
+      let y = sinPsi * R;
+      const y2 = y * cosT - z * sinT;
+      const z2 = y * sinT + z * cosT;
+      y = y2; z = z2;
+      const t = (z + R) / (2 * R);
+      const scale = 0.45 + t * 0.65;
+      const opacity = 0.18 + t * 0.82;
+      const zIndex = Math.round(t * 1000);
+      c.el.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${scale})`;
+      c.el.style.opacity = opacity;
+      c.el.style.zIndex = zIndex;
     }
+  }
 
-    function spawnSlidingPhoto() {
-        if (!started) return;
+  let globeRunning = false;
+  function loop() {
+    if (state.auto && !state.dragging) state.rotY += state.speed;
+    render();
+    if (globeRunning) requestAnimationFrame(loop);
+  }
 
-        const src = photos[photoIndex % photos.length];
-        photoIndex++;
+  globeScene.addEventListener('pointerdown', (e) => {
+    if (fullview.classList.contains('show')) return;
+    state.dragging = true;
+    state.dragStartX = e.clientX;
+    state.dragStartRot = state.rotY;
+    state.dragMoved = 0;
+  });
+  window.addEventListener('pointermove', (e) => {
+    if (!state.dragging) return;
+    const dx = e.clientX - state.dragStartX;
+    state.dragMoved = Math.abs(dx);
+    state.rotY = state.dragStartRot + dx * 0.55;
+  });
+  window.addEventListener('pointerup', () => {
+    if (!state.dragging) return;
+    state.dragging = false;
+    setTimeout(() => { state.dragMoved = 0; }, 100);
+  });
 
-        const size = getPhotoSize();
-
-        // Luân phiên trái / phải
-        const side = sideFlip === 0 ? 'sideLeft' : 'sideRight';
-        sideFlip = 1 - sideFlip;
-
-        const frame = document.createElement('div');
-        frame.className = 'photoFrame ' + side;
-        frame.style.width = size + 'px';
-        frame.style.height = size + 'px';
-
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = 'Kỷ niệm';
-        img.onerror = () => {
-            frame.innerHTML = '';
-            frame.style.background = 'linear-gradient(135deg, #ff69b4, #ff1493)';
-            frame.textContent = '❤';
-            frame.style.fontSize = size * 0.5 + 'px';
-            frame.style.display = 'flex';
-            frame.style.alignItems = 'center';
-            frame.style.justifyContent = 'center';
-            frame.style.color = '#fff';
-            frame.style.textShadow = '0 0 30px #fff';
-        };
-        frame.appendChild(img);
-        document.body.appendChild(frame);
-
-        // Kích hoạt hiệu ứng phóng to dần
-        setTimeout(() => {
-            frame.classList.add('show');
-        }, 50);
-
-        // Tim nhỏ bay quanh ảnh
-        const heartInterval = setInterval(() => {
-            if (!document.body.contains(frame)) {
-                clearInterval(heartInterval);
-                return;
-            }
-            const rect = frame.getBoundingClientRect();
-            if (rect.width > 0) {
-                const mini = document.createElement('div');
-                mini.className = 'miniHeart';
-                mini.textContent = '❤';
-                mini.style.left = (rect.left + Math.random() * rect.width) + 'px';
-                mini.style.top = (rect.top + rect.height * 0.5) + 'px';
-                document.body.appendChild(mini);
-                setTimeout(() => mini.remove(), 3000);
-            }
-        }, 500);
-
-        // Giây 10: bắt đầu mờ dần
-        setTimeout(() => {
-            frame.classList.add('fadeOut');
-        }, 10000);
-
-        // Giây 12: xóa ảnh, tạo ảnh mới sau 0.5s
-        setTimeout(() => {
-            clearInterval(heartInterval);
-            frame.remove();
-            if (started) {
-                setTimeout(spawnSlidingPhoto, 500);
-            }
-        }, 12000);
+  /* ===== FULLSCREEN ===== */
+  document.getElementById('fsBtn').addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.log(`Không thể bật toàn màn hình: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
     }
+  });
 
-    // ============================================================
-    // MỞ THIỆP
-    // ============================================================
-    const introScreen = document.getElementById('introScreen');
-    const mainScreen = document.getElementById('mainScreen');
-    const openBtn = document.getElementById('openBtn');
-    const actionBar = document.getElementById('actionBar');
-
-    function openCard() {
-        if (started) return;
-        started = true;
-
-        const rect = openBtn.getBoundingClientRect();
-        spawnFirework(rect.left + rect.width / 2, rect.top + rect.height / 2);
-
-        playMusic();
-
-        introScreen.style.opacity = '0';
-        setTimeout(() => {
-            introScreen.style.display = 'none';
-            mainScreen.style.display = 'flex';
-            actionBar.style.display = 'flex';
-
-            setInterval(spawnFallingFlower, 400);
-            setInterval(spawnFloatingHeart, 350);
-            setInterval(() => {
-                spawnFirework(Math.random() * W, Math.random() * H * 0.6);
-            }, 2000);
-
-            // Bắt đầu chuỗi ảnh
-            setTimeout(spawnSlidingPhoto, 1000);
-        }, 1500);
+  /* ===== THUMBNAILS ===== */
+  function buildThumbs() {
+    thumbStrip.innerHTML = '';
+    for (let i = 0; i < TOTAL_PHOTOS; i++) {
+      const t = document.createElement('div');
+      t.className = 'thumb';
+      const img = document.createElement('img');
+      img.src = `photo${i+1}.jpg`;
+      img.onerror = () => { t.style.background = '#f8bbd0'; };
+      t.appendChild(img);
+      t.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentPhotoIndex = i;
+        updateFullviewImage();
+        startAutoplay();
+      });
+      thumbStrip.appendChild(t);
     }
-
-    openBtn.addEventListener('click', openCard);
-    openBtn.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        openCard();
-    }, { passive: false });
-
-    // Hoa rơi nhẹ ở màn hình chờ
-    setInterval(() => {
-        if (!started) spawnFallingFlower();
-    }, 800);
-
-    // ============================================================
-    // NÚT HÀNH ĐỘNG
-    // ============================================================
-    document.getElementById('fireworksBtn').addEventListener('click', () => {
-        burstFireworks();
+  }
+  function updateThumbActive() {
+    const thumbs = thumbStrip.querySelectorAll('.thumb');
+    thumbs.forEach((t, i) => {
+      t.classList.toggle('active', i === currentPhotoIndex);
+      if (i === currentPhotoIndex) t.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     });
-    document.getElementById('heartsBtn').addEventListener('click', () => {
-        for (let i = 0; i < 20; i++) {
-            setTimeout(spawnFloatingHeart, i * 80);
-        }
-    });
-    document.getElementById('photosBtn').addEventListener('click', () => {
-        spawnSlidingPhoto();
-    });
-    </script>
+  }
+
+  /* ===== FULLVIEW ===== */
+  function openFullview(index) {
+    currentPhotoIndex = index;
+    autoBeforeFullview = state.auto;
+    state.auto = false;
+    if (thumbStrip.children.length === 0) buildThumbs();
+    updateFullviewImage();
+    fullview.classList.add('show');
+    startAutoplay();
+  }
+
+  function updateFullviewImage() {
+    const i = currentPhotoIndex;
+    fullviewImg.onerror = null;
+    fullviewImg.removeAttribute('src');
+    fullviewImg.classList.remove('ken-burns');
+    void fullviewImg.offsetWidth;
+
+    fullviewImg.onerror = () => { fullviewImg.alt = `Không tìm thấy photo${i+1}.jpg`; };
+    
+    const imgSrc = `photo${i+1}.jpg`;
+    fullviewImg.src = imgSrc;
+    fullviewImg.classList.add('ken-burns');
+    
+    fullviewBg.style.backgroundImage = `url('${imgSrc}')`;
+    fullviewCaption.textContent = `${i+1} / ${TOTAL_PHOTOS}`;
+    updateThumbActive();
+  }
+
+  function closeFullview() {
+    fullview.classList.remove('show');
+    stopAutoplay();
+    if (autoBeforeFullview) state.auto = true;
+  }
+
+  function showPrevPhoto() { currentPhotoIndex = (currentPhotoIndex - 1 + TOTAL_PHOTOS) % TOTAL_PHOTOS; updateFullviewImage(); startAutoplay(); }
+  function showNextPhoto() { currentPhotoIndex = (currentPhotoIndex + 1) % TOTAL_PHOTOS; updateFullviewImage(); startAutoplay(); }
+
+  function startAutoplay() {
+    stopAutoplay();
+    progressMs = 0;
+    fvProgress.style.width = '0%';
+    autoplayInterval = setInterval(() => {
+      progressMs += 100;
+      fvProgress.style.width = (progressMs / AUTOPLAY_MS * 100) + '%';
+      if (progressMs >= AUTOPLAY_MS) {
+        currentPhotoIndex = (currentPhotoIndex + 1) % TOTAL_PHOTOS;
+        updateFullviewImage();
+        progressMs = 0;
+        fvProgress.style.width = '0%';
+      }
+    }, 100);
+  }
+  function stopAutoplay() {
+    if (autoplayInterval) { clearInterval(autoplayInterval); autoplayInterval = null; }
+    fvProgress.style.width = '0%';
+  }
+
+  fvDownload.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const a = document.createElement('a');
+    a.href = `photo${currentPhotoIndex+1}.jpg`;
+    a.download = `ky-niem-${currentPhotoIndex+1}.jpg`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+
+  fullviewClose.addEventListener('click', closeFullview);
+  fvPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrevPhoto(); });
+  fvNext.addEventListener('click', (e) => { e.stopPropagation(); showNextPhoto(); });
+  fullview.addEventListener('click', (e) => {
+    if (e.target === fullview || e.target.classList.contains('fullview-img-wrap')) closeFullview();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!fullview.classList.contains('show')) return;
+    if (e.key === 'Escape') closeFullview();
+    if (e.key === 'ArrowLeft') showPrevPhoto();
+    if (e.key === 'ArrowRight') showNextPhoto();
+  });
+  let fvTouchX = 0;
+  fullview.addEventListener('touchstart', (e) => { fvTouchX = e.touches[0].clientX; }, { passive: true });
+  fullview.addEventListener('touchend', (e) => {
+    const diff = e.changedTouches[0].clientX - fvTouchX;
+    if (Math.abs(diff) > 50) { if (diff < 0) showNextPhoto(); else showPrevPhoto(); }
+  }, { passive: true });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const newR = calcRadius();
+      if (Math.abs(newR - radius) > 5) { radius = newR; buildGlobe(); }
+    }, 200);
+  });
+
+  document.getElementById('toAlbumBtn').addEventListener('click', () => {
+    // Tự động dừng đọc khi chuyển sang Album
+    if (isReading || window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+      isReading = false;
+      readBtn.textContent = '🔊 Nghe con đọc';
+    }
+    showScreen('album');
+    setTimeout(() => {
+      if (cards.length === 0) buildGlobe();
+      else { radius = calcRadius(); render(); }
+      if (!globeRunning) { globeRunning = true; requestAnimationFrame(loop); }
+    }, 50);
+  });
+  document.getElementById('backBtn').addEventListener('click', () => { showScreen('card'); });
+</script>
 </body>
 </html>
